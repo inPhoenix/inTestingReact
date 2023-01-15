@@ -1,6 +1,6 @@
 # Mastering the Art of Testing with React Testing Library
 
-Hacking Through the Neon Rain: 
+Hacking Through the Neon Rain:
 A Cyberpunk Journey to Master the Art of RCA Testing
 
 https://testing-library.com/docs/react-testing-library/intro/
@@ -141,3 +141,14 @@ The following RTL functions automatically call ACT for you, ensuring that the el
     user.click
 
 Highlight: Use FindBy, does not follow the Warning throw by the test!
+
+### JEST MOCK
+
+```javascript
+// The path provided is the relative path from the test file to the component, including going back to the directory where the component is located.
+jest.mock("../tree/FileIcon", () => {
+  return () => {
+    return "File Icon Component";
+  };
+});
+```

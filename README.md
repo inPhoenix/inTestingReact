@@ -2,7 +2,7 @@
 
 https://testing-library.com/docs/react-testing-library/intro/
 
-# new Things Learned
+### Overview of newly acquired knowledge
 
 Tool that shows a web to facilitate to locate elements.
 Remember to add a border if you cant select the element.
@@ -64,16 +64,16 @@ aria-label to select the getByRle with the name for buttons will work
 Note that aria-label break the React convention:
 Example:
 
-    // React Component 
+    // React Component
     <button aria-label="sign-in">
     SignIn
     </button>
-    
+
     // Test selector
     const signInButton = screen.getByRole('button', { name: /sign in/i})
 
 Test an excepction way.
-    
+
     //imagine textbox does not exist
     expect(
     () => screen.getByRole('textbox').toThrow()
@@ -88,10 +88,40 @@ Query does not throw exception, use that to test if element does not exist
 
 findBy is completely async
 
-    let errorThrown = false
-    try {
-      await screen.findByRole('textbox')
-    } catch (err) {
-      errorThrown = true
-    }
-    expect(errorThrown).toEqual(true)
+```javascript
+let errorThrown = false;
+try {
+  await screen.findByRole("textbox");
+} catch (err) {
+  errorThrown = true;
+}
+expect(errorThrown).toEqual(true);
+```
+
+custom Matches
+
+```javascript
+function toContainRoleCustom(container, role, qty = 1) {
+  if (elements.length === quantity) {
+    return {
+      pass: true,
+    };
+  }
+}
+return {
+  pass: false,
+  message: () =>
+    `Expected to find ${quantity} ${role} elements. Found ${elements.length} instead.`,
+};
+expect.extend({ toContainRole });
+```
+
+```javascript
+test("the form displays two buttons", () => {
+  render(<FormData />);
+
+  const form = screen.getByRole("form");
+
+  expect(form).toContainRole("link", 10);
+});
+```

@@ -5,9 +5,12 @@ https://testing-library.com/docs/react-testing-library/intro/
 # new Things Learned
 
 Tool that shows a web to facilitate to locate elements.
-Remember to add a border if you can select the element.
+Remember to add a border if you cant select the element.
 
     screen.logTestingPlaygroundURL()
+
+Example:
+[Testing Playground](https://testing-playground.com/#markup=DwEwlgbgfMBmD2AnAtgAgMYBsCGBnXAvAEQCuuApogLQIpEzjTA4BG5mqtxAdtsuUQw58xMpRpJkAfSmt29Xv2AB6OZhhhuABxIAXVGBA8+AoXkKkK1WtKmaduwYvLH+giNkw)
 
 Within method that helps you find inside a specific URL
 
@@ -76,12 +79,14 @@ Test an excepction way.
     () => screen.getByRole('textbox').toThrow()
     )
 
-Query does not throw exception
+Query does not throw exception, use that to test if element does not exist
 
     //imagine textbox does not exist
     expect(screen.queryByRole('textbox').toEqual('null'))
+    const element = screen.queryByRole(element)
+    expect(element).not.ToBeInTheDocument()
 
-findBy is completetly async
+findBy is completely async
 
     let errorThrown = false
     try {

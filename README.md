@@ -9,6 +9,9 @@ Remember to add a border if you cant select the element.
 
     screen.logTestingPlaygroundURL()
 
+Example:
+[Testing Playground](https://testing-playground.com/#markup=DwEwlgbgfMBmD2AnAtgAgMYBsCGBnXAvAEQCuuApogLQIpEzjTA4BG5mqtxAdtsuUQw58xMpRpJkAfSmt29Xv2AB6OZhhhuABxIAXVGBA8+AoXkKkK1WtKmaduwYvLH+giNkw)
+
 Within method that helps you find inside a specific URL
 
     within:
@@ -57,12 +60,73 @@ If you don't find byRole probably you don't have an ID assigned:
         />
       </div>
 
-### Command tool
+aria-label to select the getByRle with the name for buttons will work
+Note that aria-label break the React convention:
+Example:
 
-    With the jest watcher running you can filter the test pressing p (on main menu, after "w" for show More)
-    Or O to run tests for changed files
+    // React Component
+    <button aria-label="sign-in">
+    SignIn
+    </button>
 
-### ACT: (a window where just exist after all the async is executd)
+    // Test selector
+    const signInButton = screen.getByRole('button', { name: /sign in/i})
+
+Test an excepction way.
+
+    //imagine textbox does not exist
+    expect(
+    () => screen.getByRole('textbox').toThrow()
+    )
+
+Query does not throw exception, use that to test if element does not exist
+
+    //imagine textbox does not exist
+    expect(screen.queryByRole('textbox').toEqual('null'))
+    const element = screen.queryByRole(element)
+    expect(element).not.ToBeInTheDocument()
+
+findBy is completely async
+
+```javascript
+let errorThrown = false;
+try {
+  await screen.findByRole("textbox");
+} catch (err) {
+  errorThrown = true;
+}
+expect(errorThrown).toEqual(true);
+```
+
+custom Matches
+
+```javascript
+function toContainRoleCustom(container, role, qty = 1) {
+  if (elements.length === quantity) {
+    return {
+      pass: true,
+    };
+  }
+}
+return {
+  pass: false,
+  message: () =>
+    `Expected to find ${quantity} ${role} elements. Found ${elements.length} instead.`,
+};
+expect.extend({ toContainRole });
+```
+
+```javascript
+test("the form displays two buttons", () => {
+  render(<FormData />);
+
+  const form = screen.getByRole("form");
+
+  expect(form).toContainRole("link", 10);
+});
+```
+
+## ACT
 
 ACT is a window that only appears once all asynchronous operations have been completed.
 The following RTL functions automatically call ACT for you, ensuring that the element or condition is present before proceeding:
